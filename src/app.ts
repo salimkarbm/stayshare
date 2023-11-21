@@ -1,15 +1,14 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose, { connect } from 'mongoose';
-import logger from './Logger';
-
+import express, { Application, Request, Response, NextFunction } from 'express';
+import logger from './Utils/Logger';
+import routes from './Routes/index';
 
 // import express
-import express, { Application, Request, Response, NextFunction } from 'express';
 
 import AppError from './Utils/Errors/appError';
 import { errorHandler } from './Middlewares/Errors/errorMiddleware';
-
 
 dotenv.config();
 
@@ -30,7 +29,6 @@ const app: Application = express();
 const PORT: number = Number(process.env.PORT) || 3000;
 const address = `0.0.0.0:${PORT}`;
 
-
 app.use(
     cors({
         origin: ['http://localhost:3000', 'https://bca-healthcare.vercel.app'],
@@ -43,7 +41,6 @@ app.use(
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: false }));
 
-
 // Define index route
 app.get('/', async (req: Request, res: Response) => {
     // res.render('index');
@@ -51,8 +48,20 @@ app.get('/', async (req: Request, res: Response) => {
     res.json({ status: 'ok', message: 'Welcome to StayShare' });
 });
 
-// Routes
+app.get(
+    '/squazzle',
+    async (req: Request, res: Response, next: NextFunction) => {
+        res.status(200).json({
+            success: true,
+            message:
+                'welcome to squazzle Api, please find the documentation here: https://documentations ',
+            note: 'should you need any assistance kindly contact our support '
+        });
+    }
+);
 
+// Routes
+app.use('/api/v1', routes);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
     next(new AppError(`can't find ${req.originalUrl} on server!`, 404));
