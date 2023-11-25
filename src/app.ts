@@ -31,7 +31,7 @@ const address = `0.0.0.0:${PORT}`;
 
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'https://bca-healthcare.vercel.app'],
+        origin: ['http://localhost:3000', 'squazzle-frontend.vercel.app'],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     })
 );
