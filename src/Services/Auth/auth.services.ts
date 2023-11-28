@@ -154,6 +154,9 @@ export default class AuthService {
                     }
                 };
             }
+            throw next(
+                new AppError('Invalid Password', statusCode.badRequest())
+            );
         }
     }
 

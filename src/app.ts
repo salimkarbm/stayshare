@@ -1,5 +1,6 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
 import mongoose, { connect } from 'mongoose';
 import express, { Application, Request, Response, NextFunction } from 'express';
 import logger from './Utils/Logger';
@@ -28,6 +29,9 @@ const app: Application = express();
 // Port
 const PORT: number = Number(process.env.PORT) || 3000;
 const address = `0.0.0.0:${PORT}`;
+
+// set security Http headers
+app.use(helmet());
 
 app.use(
     cors({
