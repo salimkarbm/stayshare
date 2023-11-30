@@ -17,9 +17,9 @@ export const signUpValidationRules = () => {
             .trim()
             .notEmpty()
             .withMessage('Password is required')
-            .isLength({ min: 6, max: 8 })
+            .isLength({ min: 6, max: 16 })
             .withMessage(
-                'Password must be between min of 8 and max of 8 characters'
+                'Password must be between min of 6 and max of 16 characters'
             ),
         body('email').trim().isEmail().withMessage('Email is required ')
     ];
@@ -32,7 +32,7 @@ export const loginValidationRules = () => {
             .trim()
             .notEmpty()
             .withMessage('Password Email is required')
-            .isLength({ min: 6, max: 8 })
+            .isLength({ min: 6, max: 16 })
             .withMessage(
                 'Password must be between min of 6 and max of 16 characters'
             )
@@ -73,14 +73,14 @@ export const resetPasswordValidationRules = () => {
             .trim()
             .notEmpty()
             .withMessage('New Password is required')
-            .isLength({ min: 6, max: 8 })
-            .withMessage('New Password must be between 6 and 8 characters'),
+            .isLength({ min: 6, max: 16 })
+            .withMessage('New Password must be between 6 and 16 characters'),
         body('confirmNewPassword')
             .trim()
             .notEmpty()
             .withMessage('Confirm Password is required')
-            .isLength({ min: 6, max: 8 })
-            .withMessage('Password must be between 6 and 8 characters'),
+            .isLength({ min: 6, max: 16 })
+            .withMessage('Password must be between 6 and 16 characters'),
         body('email')
             .trim()
             .isEmail()
