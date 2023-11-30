@@ -35,7 +35,7 @@ app.use(helmet());
 
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'squazzle-frontend.vercel.app'],
+        origin: ['http://localhost:3000', 'squazzle.vercel.app'],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     })
 );
