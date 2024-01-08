@@ -2,8 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import IUser from '../../Models/interfaces/user';
 import AppError from '../../Utils/Errors/appError';
 import { authService } from '../../Services/Auth/auth.services';
-import { statusCode } from '../../Utils/helpers';
+import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
 import logger from '../../Utils/Logger/index';
+
+const statusCode = new HttpStatusCode();
 
 export const signUp = async (
     req: Request,

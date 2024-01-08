@@ -2,12 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
 import IUser from '../../Models/interfaces/user';
 import AppError from '../../Utils/Errors/appError';
-import Utilities, { statusCode } from '../../Utils/helpers';
+import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
+import Utilities from '../../Utils/helpers';
 import { authRepository } from '../../Repositories/Auth/auth.repository';
 import { userRepository } from '../../Repositories/Users/user.repository';
 import { MalierService } from '../../Utils/Emails/mailer';
 
 const utils = new Utilities();
+const statusCode = new HttpStatusCode();
 const emailNotification = new MalierService();
 
 export default class AuthService {

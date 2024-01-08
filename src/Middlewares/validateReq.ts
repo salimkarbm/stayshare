@@ -2,10 +2,12 @@ import { Request, NextFunction, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import { userRepository } from '../Repositories/Users/user.repository';
+import HttpStatusCode from '../Utils/httpStatusCodes/httpStatusCode';
 import AppError from '../Utils/Errors/appError';
-import Utilities, { statusCode } from '../Utils/helpers';
+import Utilities from '../Utils/helpers';
 
 const util = new Utilities();
+const statusCode = new HttpStatusCode();
 
 export const validate = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
