@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Logger, createLogger } from 'winston';
 import { devErrorLog, prodErrorLog } from './errorLogger';
 

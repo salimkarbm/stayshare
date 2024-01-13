@@ -80,7 +80,7 @@ export default class Utilities {
         const refreshTokenSecret = process.env.REFRESHTOKENSECRET as string;
         const payload: any = await userRepository.findUserByEmail(email);
         const data = {
-            id: payload.user_id,
+            id: payload._id,
             role: payload.role,
             email: payload.email,
             occupation: payload.occupation

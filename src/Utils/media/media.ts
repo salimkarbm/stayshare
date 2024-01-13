@@ -43,9 +43,15 @@ export default class Media {
         const { files } = req;
         const file1 = String(files[0] && files[0].path);
         const file2 = String(files[0] && files[1].path);
+        const file3 = String(files[0] && files[2].path);
+        const file4 = String(files[0] && files[3].path);
+        const file5 = String(files[0] && files[4].path);
         return {
             file1,
-            file2
+            file2,
+            file3,
+            file4,
+            file5
         };
     };
 

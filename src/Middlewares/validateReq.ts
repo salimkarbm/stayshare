@@ -61,7 +61,7 @@ export const authenticate = async (
             );
         }
         const currentUser = await userRepository.findUserById(
-            decoded.payload.user_id
+            decoded.payload.id
         );
         if (!currentUser) {
             return res.status(statusCode.unauthorized()).json({
