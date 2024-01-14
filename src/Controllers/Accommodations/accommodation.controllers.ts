@@ -44,6 +44,32 @@ export const getAccommodations = async (
             await accomodationService.getAccommodations(req, next);
         return res.status(statusCode.ok()).json({
             status: 'success',
+            message: 'Accomodations fetch successfully',
+            data: {
+                accomodation
+            }
+        });
+    } catch (err) {
+        logger.error(err);
+        return next(
+            new AppError(
+                `something went wrong here is the error ${err}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};
+
+export const getAccommodation = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const accomodation: IAccomodation | void =
+            await accomodationService.getAccommodations(req, next);
+        return res.status(statusCode.ok()).json({
+            status: 'success',
             message: 'Accomodation fetch successfully',
             data: {
                 accomodation

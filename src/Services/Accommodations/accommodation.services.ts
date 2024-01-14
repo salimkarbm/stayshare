@@ -59,6 +59,21 @@ export default class AccomodationService {
         const accommodations = await accomodationRepository.getAccommodations();
         return accommodations;
     }
+
+    public async getAccommodation(
+        req: Request,
+        next: NextFunction
+    ): Promise<IAccomodation | void> {
+        const { accommodationId } = req.params;
+        const accommodation =
+            await accomodationRepository.getAccommodation(accommodationId);
+        if (!accommodation) {
+            return next(
+                new AppError('Accommodation not found', statusCode.notFound())
+            );
+        }
+        return accommodation;
+    }
 }
 
 export const accomodationService = new AccomodationService();

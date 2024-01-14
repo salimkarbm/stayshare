@@ -13,6 +13,12 @@ export class AccomodationRepository {
         const accomodations: any = await Accommodation.find();
         return accomodations as IAccomodation;
     }
+
+    async getAccommodation(accommodationId: string): Promise<IAccomodation> {
+        const accomodations: any =
+            await Accommodation.findById(accommodationId);
+        return accomodations as IAccomodation;
+    }
 }
 
 export const accomodationRepository = new AccomodationRepository();

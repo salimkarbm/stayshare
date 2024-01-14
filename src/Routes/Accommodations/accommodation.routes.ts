@@ -1,9 +1,13 @@
 import { Router } from 'express';
 import { validate, authenticate } from '../../Middlewares/validateReq';
-import { accommodationValidationRules } from '../../Middlewares/Accommodations/accommodation.middlewares';
+import {
+    accommodationIdValidationRules,
+    accommodationValidationRules
+} from '../../Middlewares/Accommodations/accommodation.middlewares';
 import {
     addAccommodation,
-    getAccommodations
+    getAccommodations,
+    getAccommodation
 } from '../../Controllers/Accommodations/accommodation.controllers';
 import Media from '../../Utils/media/media';
 
@@ -20,5 +24,9 @@ router
         addAccommodation
     )
     .get(validate, getAccommodations);
+
+router
+    .route('/:accommodationId')
+    .get(accommodationIdValidationRules(), validate, getAccommodation);
 
 export default router;
