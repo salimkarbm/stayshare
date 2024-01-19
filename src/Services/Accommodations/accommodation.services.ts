@@ -1,5 +1,5 @@
 import { Request, NextFunction } from 'express';
-import IAccomodation from '../../Models/interfaces/accomodation';
+import { IAccommodation } from '../../Models/interfaces/accomodation';
 import AppError from '../../Utils/Errors/appError';
 import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
 import Media from '../../Utils/media/media';
@@ -12,29 +12,26 @@ export default class AccomodationService {
     public async addAccommodation(
         req: Request,
         next: NextFunction
-    ): Promise<IAccomodation | void> {
+    ): Promise<IAccommodation | void> {
         const { id } = req.user;
         if (id) {
             const filesArray = req.files ? Object.values(req.files).flat() : [];
             if (filesArray.length > 0) {
                 const imageFiles = filesArray.map(async (image) => {
-                    return mediaImage.cloudinaryUpload(image.path);
+                    const cloudinary: any = await mediaImage.cloudinaryUpload(
+                        image.path
+                    );
+                    return {
+                        imageId: cloudinary.public_id,
+                        imageUrl: cloudinary.secure_url
+                    };
                 });
                 const images = await Promise.all(imageFiles);
                 const payload = {
                     ...req.body,
                     createdBy: id,
                     accommodationRules: JSON.parse(req.body.accomodationRules),
-                    imageOne: images[0]?.secure_url,
-                    imageOneId: images[0]?.public_id,
-                    imageTwo: images[1]?.secure_url,
-                    imageTwoId: images[1]?.public_id,
-                    imageThree: images[2]?.secure_url,
-                    imageThreeId: images[2]?.public_id,
-                    imageFour: images[3]?.secure_url,
-                    imageFourId: images[3]?.public_id,
-                    imageFive: images[4]?.secure_url,
-                    imageFiveId: images[4]?.public_id
+                    gallery: images
                 };
                 const accommodation =
                     await accomodationRepository.addAccommodation(payload);
@@ -55,7 +52,7 @@ export default class AccomodationService {
     public async getAccommodations(
         req: Request,
         next: NextFunction
-    ): Promise<IAccomodation | void> {
+    ): Promise<IAccommodation | void> {
         const accommodations = await accomodationRepository.getAccommodations();
         return accommodations;
     }
@@ -63,7 +60,7 @@ export default class AccomodationService {
     public async getAccommodation(
         req: Request,
         next: NextFunction
-    ): Promise<IAccomodation | void> {
+    ): Promise<IAccommodation | void> {
         const { accommodationId } = req.params;
         const accommodation =
             await accomodationRepository.getAccommodation(accommodationId);
@@ -73,6 +70,100 @@ export default class AccomodationService {
             );
         }
         return accommodation;
+    }
+
+    public async updateAccommodation(
+        req: Request,
+        next: NextFunction
+    ): Promise<IAccommodation | void> {
+        const { id } = req.user;
+        const { accommodationId } = req.params;
+        if (id) {
+            const accommodation =
+                await accomodationRepository.getAccommodation(accommodationId);
+            const filesArray = req.files ? Object.values(req.files).flat() : [];
+            if (filesArray.length > 0) {
+                const imageFiles = filesArray.map(async (image) => {
+                    const cloudinary: any = await mediaImage.cloudinaryUpload(
+                        image.path
+                    );
+                    return {
+                        imageId: cloudinary.public_id,
+                        imageUrl: cloudinary.secure_url
+                    };
+                });
+                const images = await Promise.all(imageFiles);
+                const payload = {
+                    status: req.body.status || accommodation.status,
+                    state: req.body.state || accommodation.state,
+                    city: req.body.city || accommodation.city,
+                    accommodationType:
+                        req.body.accommodationType ||
+                        accommodation.accommodationType,
+                    accommodationName:
+                        req.body.accommodationName ||
+                        accommodation.accommodationName,
+                    description:
+                        req.body.description || accommodation.description,
+                    whyListing: req.body.whyListing || accommodation.whyListing,
+                    price: req.body.price || accommodation.price,
+                    address: req.body.address || accommodation.address,
+                    hostingPeriodFrom:
+                        req.body.hostingPeriodFrom ||
+                        accommodation.hostingPeriodFrom,
+                    hostingPeriodTo:
+                        req.body.hostingPeriodTo ||
+                        accommodation.hostingPeriodTo,
+                    createdBy: id,
+                    accommodationRules:
+                        JSON.parse(req.body.accomodationRules) ||
+                        accommodation.accommodationRules,
+                    gallery: images || accommodation.gallery
+                };
+                const upddatedAccommodation =
+                    await accomodationRepository.updateAccommodation(
+                        accommodationId,
+                        payload
+                    );
+                return upddatedAccommodation;
+            }
+            const payload = {
+                status: req.body.status || accommodation.status,
+                state: req.body.state || accommodation.state,
+                city: req.body.city || accommodation.city,
+                accommodationType:
+                    req.body.accommodationType ||
+                    accommodation.accommodationType,
+                accommodationName:
+                    req.body.accommodationName ||
+                    accommodation.accommodationName,
+                description: req.body.description || accommodation.description,
+                whyListing: req.body.whyListing || accommodation.whyListing,
+                price: req.body.price || accommodation.price,
+                address: req.body.address || accommodation.address,
+                hostingPeriodFrom:
+                    req.body.hostingPeriodFrom ||
+                    accommodation.hostingPeriodFrom,
+                hostingPeriodTo:
+                    req.body.hostingPeriodTo || accommodation.hostingPeriodTo,
+                createdBy: id,
+                accommodationRules:
+                    JSON.parse(req.body.accommodationRules) ||
+                    accommodation.accommodationRules
+            };
+            const upddatedAccommodation =
+                await accomodationRepository.updateAccommodation(
+                    accommodationId,
+                    payload
+                );
+            return upddatedAccommodation;
+        }
+        return next(
+            new AppError(
+                'You are not allowed to create accomodation!, please login to gain access',
+                statusCode.accessForbidden()
+            )
+        );
     }
 }
 

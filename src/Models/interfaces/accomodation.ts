@@ -1,12 +1,17 @@
-export default interface IAccommodation {
+export interface IGallery {
+    imageId: string;
+    imageUrl: string;
+}
+
+export interface IAccommodation {
     id?: string;
     createdAt?: string;
     readonly length?: number;
     accommodationName: string;
     description: string;
     whyListing: string;
-    accomodationType: string;
-    accomodationRules: string[];
+    accommodationType: string;
+    accommodationRules: string[];
     price: number;
     state: string;
     city: string;
@@ -14,4 +19,6 @@ export default interface IAccommodation {
     hostingPeriodTo: string;
     hostingPeriodFrom: string;
     address: string;
+    gallery?: IGallery[];
+    createdBy: string;
 }

@@ -2,12 +2,14 @@ import { Router } from 'express';
 import { validate, authenticate } from '../../Middlewares/validateReq';
 import {
     accommodationIdValidationRules,
-    accommodationValidationRules
+    accommodationValidationRules,
+    updateAccommodationValidationRules
 } from '../../Middlewares/Accommodations/accommodation.middlewares';
 import {
     addAccommodation,
     getAccommodations,
-    getAccommodation
+    getAccommodation,
+    updateAccommodation
 } from '../../Controllers/Accommodations/accommodation.controllers';
 import Media from '../../Utils/media/media';
 
@@ -27,6 +29,13 @@ router
 
 router
     .route('/:accommodationId')
-    .get(accommodationIdValidationRules(), validate, getAccommodation);
+    .get(accommodationIdValidationRules(), validate, getAccommodation)
+    .patch(
+        image.upload.array('images'),
+        updateAccommodationValidationRules(),
+        validate,
+        authenticate,
+        updateAccommodation
+    );
 
 export default router;
