@@ -165,6 +165,34 @@ export default class AccomodationService {
             )
         );
     }
+
+    public async deleteAllItemsInGallery(
+        req: Request,
+        next: NextFunction
+    ): Promise<IAccommodation | void> {
+        const { id } = req.user;
+        const { accommodationId } = req.params;
+        if (id) {
+            const accommodation =
+                await accomodationRepository.getAccommodation(accommodationId);
+            if (accommodation) {
+                const gallery =
+                    await accomodationRepository.deleteAllItemsInGallery(
+                        accommodationId
+                    );
+                return gallery;
+            }
+            return next(
+                new AppError('Accommodation not foundd', statusCode.notFound())
+            );
+        }
+        return next(
+            new AppError(
+                'You are not allowed to create accomodation!, please login to gain access',
+                statusCode.accessForbidden()
+            )
+        );
+    }
 }
 
 export const accomodationService = new AccomodationService();

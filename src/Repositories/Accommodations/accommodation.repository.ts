@@ -48,6 +48,22 @@ export class AccomodationRepository {
         );
         return accomodations as IAccommodation;
     }
+
+    async deleteAllItemsInGallery(
+        accommodationId: string
+    ): Promise<IAccommodation | void> {
+        const accommodation: any = await Accommodation.findByIdAndUpdate(
+            accommodationId,
+            {
+                $set: {
+                    gallery: []
+                }
+            },
+            { new: true }
+        );
+
+        return accommodation as IAccommodation;
+    }
 }
 
 export const accomodationRepository = new AccomodationRepository();

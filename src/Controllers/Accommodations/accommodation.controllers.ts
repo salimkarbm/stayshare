@@ -111,3 +111,29 @@ export const updateAccommodation = async (
         );
     }
 };
+
+export const deleteAllItemsInGallery = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const accomodation: IAccommodation | void =
+            await accomodationService.deleteAllItemsInGallery(req, next);
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'Gallery deleted successfully',
+            data: {
+                accomodation
+            }
+        });
+    } catch (err) {
+        logger.error(err);
+        return next(
+            new AppError(
+                `something went wrong here is the error ${err}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};

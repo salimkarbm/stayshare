@@ -9,7 +9,8 @@ import {
     addAccommodation,
     getAccommodations,
     getAccommodation,
-    updateAccommodation
+    updateAccommodation,
+    deleteAllItemsInGallery
 } from '../../Controllers/Accommodations/accommodation.controllers';
 import Media from '../../Utils/media/media';
 
@@ -37,5 +38,9 @@ router
         authenticate,
         updateAccommodation
     );
+
+router
+    .route('/gallery/:accommodationId')
+    .delete(validate, authenticate, deleteAllItemsInGallery);
 
 export default router;
