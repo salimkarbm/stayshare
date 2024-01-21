@@ -10,7 +10,8 @@ import {
     getAccommodations,
     getAccommodation,
     updateAccommodation,
-    deleteAllItemsInGallery
+    deleteAllItemsInGallery,
+    deleteSomeItemsFromGallery
 } from '../../Controllers/Accommodations/accommodation.controllers';
 import Media from '../../Utils/media/media';
 
@@ -41,6 +42,17 @@ router
 
 router
     .route('/gallery/:accommodationId')
-    .delete(validate, authenticate, deleteAllItemsInGallery);
+    .patch(
+        accommodationIdValidationRules(),
+        validate,
+        authenticate,
+        deleteSomeItemsFromGallery
+    )
+    .delete(
+        accommodationIdValidationRules(),
+        validate,
+        authenticate,
+        deleteAllItemsInGallery
+    );
 
 export default router;

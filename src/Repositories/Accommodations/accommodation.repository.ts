@@ -64,6 +64,23 @@ export class AccomodationRepository {
 
         return accommodation as IAccommodation;
     }
+
+    async deleteSomeItemsFromGallery(
+        accommodationId: string,
+        itemsToDelete: string[]
+    ): Promise<IAccommodation | void> {
+        const accommodation: any = await Accommodation.findByIdAndUpdate(
+            accommodationId,
+            {
+                $pull: {
+                    gallery: { imageId: { $in: itemsToDelete } }
+                }
+            },
+            { new: true }
+        );
+
+        return accommodation as IAccommodation;
+    }
 }
 
 export const accomodationRepository = new AccomodationRepository();
