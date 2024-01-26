@@ -2,7 +2,7 @@ import { Request, NextFunction } from 'express';
 import { IAccommodation } from '../../Models/interfaces/accomodation';
 import AppError from '../../Utils/Errors/appError';
 import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
-import Media from '../../Utils/media/media';
+import Media from '../../Utils/Media/media';
 import { accomodationRepository } from '../../Repositories/Accommodations/accommodation.repository';
 
 const mediaImage = new Media();

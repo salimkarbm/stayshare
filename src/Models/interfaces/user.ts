@@ -1,4 +1,4 @@
-export default interface IUser {
+export interface IUser {
     id?: string;
     passwordDigest: string;
     email: string;
@@ -21,4 +21,19 @@ export default interface IUser {
     readonly length?: number;
     location?: string;
     facebookId?: string;
+}
+
+export interface IUpdateUser {
+    email: string;
+    firstName: string;
+    lastName: string;
+    occupation: string;
+    state: string;
+    city: string;
+    gender: string;
+    phoneNumber: string;
+    bio?: string;
+    address?: string;
+    profileImageId?: string;
+    profileImage?: string;
 }

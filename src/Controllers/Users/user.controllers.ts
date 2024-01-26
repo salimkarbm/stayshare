@@ -1,137 +1,110 @@
-// import paginate from 'express-paginate';
-// import { Utilities, StatusCode } from '../utils/helpers';
-// import AppError from '../services/Errors/appErrors';
+import { Request, Response, NextFunction } from 'express';
+import AppError from '../../Utils/Errors/appError';
+import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
+import { userService } from '../../Services/Users/user.services';
+import logger from '../../Utils/Logger/index';
 
-// const geAllUsers = async (req: any, res: Response, next: NextFunction) => {
-//     try {
-//       let limit: number = 2;
-//       if (req.query.limit) {
-//         limit = parseFloat(req.query.limit);
-//       }
-//       const allUsers = await UserData.getAll(req.query.limit);
-//       const pageCount = Math.ceil(allUsers.itemCount - limit);
-//       if (!allUsers) {
-//         return res.status(Statuscode.notFound()).json({
-//           success: false,
-//           error: 'No user found'
-//         });
-//       } else {
-//         return res.json({
-//           success: true,
-//           object: 'List',
-//           has_more: paginate.hasNextPages(req)(pageCount),
-//           data: allUsers.results,
-//           pageCount,
-//           itemCount: allUsers.itemCount,
-//           currentPage: req.query.page,
-//           pages: paginate.getArrayPages(req)(
-//             2,
-//             pageCount,
-//             req.query.page as unknown as number
-//           )
-//         }).statusCode;
-//       }
-//     } catch (error) {
-//       return next(
-//         new AppError(
-//           `something went wrong here is the error ${error}`,
-//           Statuscode.internalServerError()
-//         )
-//       );
-//     }
-//   };
+const statusCode = new HttpStatusCode();
 
-//   const viewProfile = async (req: any, res: Response, next: NextFunction) => {
-//     const currentUser = req.user;
-//     try {
-//       const user = await UserData.findOneUser(currentUser.email);
-//       let profile = {
-//         email: user.email,
-//         firstName: user.firstName,
-//         lastName: user.lastName,
-//         phone: user.phoneNumber,
-//         gender: user.gender,
-//         image: user.image,
-//         NIN: user.NIN,
-//         occupation: user.occupation,
-//         address: user.address,
-//         description: user.description
-//       };
+export const viewProfile = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const profile = await userService.viewProfile(req, next);
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'Profile fetch successfully',
+            date: {
+                profile
+            }
+        });
+    } catch (error) {
+        logger.error("can't load profile", error);
+        return next(
+            new AppError(
+                `something went wrong, here is the error ${error}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};
 
-//       return res.status(Statuscode.ok()).json({
-//         success: true,
-//         profile
-//       });
-//     } catch (error) {
-//       return next(
-//         new AppError(
-//           `something went wrong, here is the error ${error}`,
-//           Statuscode.internalServerError()
-//         )
-//       );
-//     }
-//   };
+export const getUsers = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const users = await userService.getUsers(req, next);
 
-//   const editProfile = async (req: any, res: Response, next: NextFunction) => {
-//     try {
-//       const currentUser = req.user;
-//       const {
-//         email,
-//         phone,
-//         firstName,
-//         lastName,
-//         gender,
-//         address,
-//         NIN,
-//         occupation,
-//         description
-//       } = req.body;
-//       const phoneNumber = phone;
-//       const filePath = Utility.getFilePath(req);
-//       const profile = {
-//         firstName,
-//         lastName,
-//         email,
-//         phoneNumber,
-//         gender,
-//         address,
-//         NIN,
-//         occupation,
-//         description,
-//         image: filePath
-//       };
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'Users fetched successfully',
+            date: {
+                users
+            }
+        });
+    } catch (error) {
+        logger.error("can't Fetched Users", error);
+        return next(
+            new AppError(
+                `something went wrong, here is the error ${error}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};
 
-//       await User.findByIdAndUpdate(currentUser.id, profile, {
-//         new: true,
-//         runValidators: true
-//       });
-//       return res.status(Statuscode.accepted()).json({
-//         message: 'update successful',
-//         success: true
-//       });
-//     } catch (error) {
-//       return next(
-//         new AppError(
-//           `something went wrong, here is the error ${error}`,
-//           Statuscode.internalServerError()
-//         )
-//       );
-//     }
-//   };
+export const getUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await userService.getUser(req, next);
 
-//   const deleteAUser = async (req: any, res: Response, next: NextFunction) => {
-//     try {
-//       const user = await UserData.deleteUser(req.body.email);
-//       return res.status(Statuscode.accepted()).json({
-//         success: true,
-//         message: 'User Successfully deleted'
-//       });
-//     } catch (error) {
-//       return next(
-//         new AppError(
-//           `something went wrong here is the error ${error}`,
-//           Statuscode.internalServerError()
-//         )
-//       );
-//     }
-//   };
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'User fetched successfully',
+            date: {
+                user
+            }
+        });
+    } catch (error) {
+        logger.error("can't Get User", error);
+        return next(
+            new AppError(
+                `something went wrong, here is the error ${error}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};
+
+export const updateUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await userService.updateUser(req, next);
+
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'User updated successfully',
+            date: {
+                user
+            }
+        });
+    } catch (error) {
+        logger.error("can't Update User", error);
+        return next(
+            new AppError(
+                `something went wrong, here is the error ${error}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};

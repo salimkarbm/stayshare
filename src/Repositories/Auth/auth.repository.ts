@@ -1,5 +1,5 @@
 import User from '../../Models/Users/user.model';
-import IUser from '../../Models/interfaces/user';
+import { IUser } from '../../Models/interfaces/user';
 import Utilities from '../../Utils/helpers';
 
 const util = new Utilities();

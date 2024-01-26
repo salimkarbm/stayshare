@@ -1,8 +1,13 @@
 import User from '../../Models/Users/user.model';
-import IUser from '../../Models/interfaces/user';
+import { IUser, IUpdateUser } from '../../Models/interfaces/user';
 
 export class UserRepository {
     static User = new User({});
+
+    async createUser(user: IUser) {
+        const data = await User.create(user);
+        return data;
+    }
 
     async findUser(email: string): Promise<IUser> {
         const user: any = await User.findOne({ email });
@@ -19,16 +24,10 @@ export class UserRepository {
         return user;
     }
 
-    async createUser(user: any) {
-        const data = await User.create(user);
-        return data;
-    }
-
     async findUserByEmail(email: string): Promise<IUser> {
         /**
          * This method returns an object of user data
          */
-
         const data: any = await User.findOne({
             email
         });
@@ -42,7 +41,6 @@ export class UserRepository {
         /**
          * This method returns an object of user data
          */
-
         const data: any = await User.findOne({
             OTP,
             email
@@ -54,23 +52,22 @@ export class UserRepository {
         /**
          * This method returns an object of user data
          */
-
         const data: any = await User.findOne({
             verificationCode
         });
         return data;
     }
 
-    async getAll(limit: number) {
-        const [results, itemCount] = await Promise.all([
-            User.find({})
-                .select('_id email firstName LastName phoneNumber image')
-                .sort({ createdAt: -1 })
-                .limit(limit),
-            User.count({})
-        ]);
+    async updateUser(payload: IUpdateUser, userId: string): Promise<IUser> {
+        const users: any = await User.findByIdAndUpdate(userId, payload, {
+            new: true
+        });
+        return users as IUser;
+    }
 
-        return { results, itemCount };
+    async getUsers(): Promise<IUser> {
+        const users: any = await User.find();
+        return users as IUser;
     }
 
     async deactivateUser(email: any) {

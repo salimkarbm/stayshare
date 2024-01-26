@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
-import IUser from '../../Models/interfaces/user';
+import { IUser } from '../../Models/interfaces/user';
 import AppError from '../../Utils/Errors/appError';
 import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
 import Utilities from '../../Utils/helpers';

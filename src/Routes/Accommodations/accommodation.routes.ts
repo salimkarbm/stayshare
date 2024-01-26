@@ -13,7 +13,7 @@ import {
     deleteAllItemsInGallery,
     deleteSomeItemsFromGallery
 } from '../../Controllers/Accommodations/accommodation.controllers';
-import Media from '../../Utils/media/media';
+import Media from '../../Utils/Media/media';
 
 const image = new Media();
 const router = Router();
