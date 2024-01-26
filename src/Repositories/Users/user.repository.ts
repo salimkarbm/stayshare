@@ -31,7 +31,7 @@ export class UserRepository {
         const data: any = await User.findOne({
             email
         });
-        return data;
+        return data as IUser;
     }
 
     async findUserByCodeAndEmail(
@@ -70,18 +70,21 @@ export class UserRepository {
         return users as IUser;
     }
 
-    async deactivateUser(email: any) {
-        const modify = await User.findOneAndUpdate(
-            { email },
+    async deactivateUser(id: string): Promise<IUser> {
+        const modify: any = await User.findOneAndUpdate(
+            { _id: id },
             { $set: { isEmailVerified: false } },
             { new: true }
         );
-        return modify;
+        return modify as IUser;
     }
 
-    async deleteUser(email: any) {
-        const modify = await User.findOneAndDelete({ email }, { new: true });
-        return modify;
+    async deleteUser(id: string): Promise<IUser> {
+        const result: any = await User.findOneAndDelete(
+            { _id: id },
+            { new: true }
+        );
+        return result as IUser;
     }
 }
 

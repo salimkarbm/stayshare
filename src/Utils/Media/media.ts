@@ -69,7 +69,6 @@ export default class Media {
             cb(null, `${Date.now()}--${path.extname(file.originalname)}`);
         }
     });
-    // //////////////////////////////////////////////////////////////////
 
     // check file/images
     fileFilter = (req: any, file: any, cb: any) => {

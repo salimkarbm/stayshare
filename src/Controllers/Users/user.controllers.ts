@@ -108,3 +108,54 @@ export const updateUser = async (
         );
     }
 };
+
+export const deleteUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await userService.deleteUser(req, next);
+
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'User deleted successfully',
+            date: {
+                user
+            }
+        });
+    } catch (error) {
+        logger.error("can't Delete User", error);
+        return next(
+            new AppError(
+                `something went wrong, here is the error ${error}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};
+
+export const deActivateUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await userService.deActivateUser(req, next);
+        return res.status(statusCode.ok()).json({
+            status: 'success',
+            message: 'User de-Activate successfully',
+            date: {
+                user
+            }
+        });
+    } catch (error) {
+        logger.error("can't de-Activate User", error);
+        return next(
+            new AppError(
+                `something went wrong, here is the error ${error}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};

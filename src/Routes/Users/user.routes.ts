@@ -5,7 +5,9 @@ import {
     viewProfile,
     getUsers,
     getUser,
-    updateUser
+    updateUser,
+    deleteUser,
+    deActivateUser
 } from '../../Controllers/Users/user.controllers';
 import Media from '../../Utils/Media/media';
 
@@ -17,10 +19,15 @@ router.route('/').get(validate, authenticate, getUsers);
 router
     .route('/:userId')
     .get(userIdValidationRules(), validate, authenticate, getUser)
-    .patch(media.upload.single('image'), validate, authenticate, updateUser);
+    .patch(media.upload.single('image'), validate, authenticate, updateUser)
+    .delete(userIdValidationRules(), validate, authenticate, deleteUser);
 
 router
     .route('/profile/:userId')
     .get(userIdValidationRules(), validate, authenticate, viewProfile);
+
+router
+    .route('/deActivate/:userId')
+    .patch(userIdValidationRules(), validate, authenticate, deActivateUser);
 
 export default router;

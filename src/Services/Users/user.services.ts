@@ -69,6 +69,48 @@ export default class UserService {
         );
     }
 
+    public async deleteUser(
+        req: Request,
+        next: NextFunction
+    ): Promise<IUser | void> {
+        const { id, role } = req.user;
+        if (id) {
+            const user = await userRepository.findUserById(id);
+            if ((user && user.id === id) || role.toLowerCase() === 'admin') {
+                const result = await userRepository.deleteUser(id);
+                return result;
+            }
+            return next(new AppError('User not found', statusCode.notFound()));
+        }
+        return next(
+            new AppError(
+                'You are not logged in. please login to again access',
+                statusCode.unauthorized()
+            )
+        );
+    }
+
+    public async deActivateUser(
+        req: Request,
+        next: NextFunction
+    ): Promise<IUser | void> {
+        const { id, role } = req.user;
+        if (id) {
+            const user = await userRepository.findUserById(id);
+            if ((user && user.id === id) || role.toLowerCase() === 'admin') {
+                const result = await userRepository.deactivateUser(id);
+                return result;
+            }
+            return next(new AppError('User not found', statusCode.notFound()));
+        }
+        return next(
+            new AppError(
+                'You are not logged in. please login to again access',
+                statusCode.unauthorized()
+            )
+        );
+    }
+
     public async updateUser(
         req: Request,
         next: NextFunction
@@ -76,11 +118,15 @@ export default class UserService {
         const { id } = req.user;
         if (id) {
             const user: any = await userRepository.findUserById(id);
-            const filepath = media.getFilePath(req);
-            let cloudinary: any;
-            if (filepath) {
-                cloudinary = media.cloudinaryUpload(filepath);
+            let cloudinary;
+            if (user.profileImageId) {
+                await media.cloudinaryDestroy(user.profileImageId);
             }
+            const filepath = media.getFilePath(req);
+            if (filepath) {
+                cloudinary = await media.cloudinaryUpload(filepath);
+            }
+
             if (user && user.id === id) {
                 const payload = {
                     email: req.body.email || user.email,
@@ -94,8 +140,9 @@ export default class UserService {
                     phoneNumber: req.body.phoneNumber || user.phoneNumber,
                     bio: req.body.bio || user.bio,
                     address: req.body.address || user.address,
-                    profileImageId: cloudinary.public_id || user.profileImageId,
-                    profilePicture: cloudinary.secure_url || user.profilePicture
+                    profileImageId:
+                        cloudinary?.public_id || user.profileImageId,
+                    profileImage: cloudinary?.secure_url || user.profilePicture
                 };
                 const newUser = await userRepository.updateUser(
                     payload,
