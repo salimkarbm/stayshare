@@ -159,3 +159,27 @@ export const deActivateUser = async (
         );
     }
 };
+
+export const changePassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user: any = await userService.changePassword(req, next);
+        if (user) {
+            return res.status(statusCode.ok()).json({
+                status: 'success',
+                message: 'passsword changed Successfully.',
+                user
+            });
+        }
+    } catch (err) {
+        return next(
+            new AppError(
+                `something went wrong ${err}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};

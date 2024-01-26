@@ -43,3 +43,26 @@ export const updateUserValidationRules = () => {
             .withMessage('Address must be a string')
     ];
 };
+
+export const changePasswordValidationRules = () => {
+    return [
+        body('currentPassword')
+            .trim()
+            .notEmpty()
+            .withMessage('current Password can not be empty')
+            .isLength({ min: 6, max: 16 })
+            .withMessage('Password must be between 1 and 16 characters'),
+        body('newPassword')
+            .trim()
+            .notEmpty()
+            .withMessage('new Password can not be empty')
+            .isLength({ min: 6, max: 16 })
+            .withMessage('Password must be between 1 and 16 characters'),
+        body('confirmPassword')
+            .trim()
+            .notEmpty()
+            .withMessage('Confirm Password can not be empty')
+            .isLength({ min: 6, max: 16 })
+            .withMessage('Confirm Password must be between 1 and 16 characters')
+    ];
+};

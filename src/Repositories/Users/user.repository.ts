@@ -86,6 +86,16 @@ export class UserRepository {
         );
         return result as IUser;
     }
+
+    async UpdatePassword(id: string, password: string): Promise<IUser | null> {
+        const result: any = await User.findOneAndUpdate(
+            { _id: id },
+            { passwordDigest: password }
+        )
+            .select('-OTP')
+            .exec();
+        return result as IUser;
+    }
 }
 
 export const userRepository = new UserRepository();

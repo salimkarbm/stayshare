@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import { validate, authenticate } from '../../Middlewares/validateReq';
-import { userIdValidationRules } from '../../Middlewares/Users/user.middlewares';
+import {
+    userIdValidationRules,
+    changePasswordValidationRules
+} from '../../Middlewares/Users/user.middlewares';
 import {
     viewProfile,
     getUsers,
     getUser,
     updateUser,
     deleteUser,
-    deActivateUser
+    deActivateUser,
+    changePassword
 } from '../../Controllers/Users/user.controllers';
 import Media from '../../Utils/Media/media';
 
@@ -15,6 +19,14 @@ const media = new Media();
 const router = Router();
 
 router.route('/').get(validate, authenticate, getUsers);
+
+router.patch(
+    '/changePassword',
+    changePasswordValidationRules(),
+    validate,
+    authenticate,
+    changePassword
+);
 
 router
     .route('/:userId')

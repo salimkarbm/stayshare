@@ -4,7 +4,9 @@ import AppError from '../../Utils/Errors/appError';
 import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
 import { userRepository } from '../../Repositories/Users/user.repository';
 import Media from '../../Utils/Media/media';
+import Utilities from '../../Utils/helpers';
 
+const util = new Utilities();
 const media = new Media();
 const statusCode = new HttpStatusCode();
 
@@ -75,7 +77,7 @@ export default class UserService {
     ): Promise<IUser | void> {
         const { id, role } = req.user;
         if (id) {
-            const user = await userRepository.findUserById(id);
+            const user = await userRepository.findUserByEmail(req.body.email);
             if ((user && user.id === id) || role.toLowerCase() === 'admin') {
                 const result = await userRepository.deleteUser(id);
                 return result;
@@ -156,6 +158,37 @@ export default class UserService {
             new AppError(
                 'You are not logged in. please login to again access',
                 statusCode.unauthorized()
+            )
+        );
+    }
+
+    public async changePassword(
+        req: Request,
+        next: NextFunction
+    ): Promise<any> {
+        const { id } = req.user;
+        if (req.body.newPassword !== req.body.confirmPassword) {
+            return next(
+                new AppError('password does not match', statusCode.badRequest())
+            );
+        }
+        const user = await userRepository.findUserById(id);
+        const isPassword = await util.comparePassword(
+            req.body.currentPassword,
+            user?.passwordDigest as string
+        );
+        if (isPassword) {
+            const hashPassword = await util.generateHash(req.body.newPassword);
+            const updatedPassword = await userRepository.UpdatePassword(
+                id as unknown as string,
+                hashPassword
+            );
+            return updatedPassword as IUser;
+        }
+        return next(
+            new AppError(
+                'current password does not match',
+                statusCode.badRequest()
             )
         );
     }
