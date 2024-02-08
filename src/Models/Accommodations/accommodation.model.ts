@@ -68,36 +68,6 @@ const AccommodationSchema = new Schema(
             required: [true, 'Please provide accomodation address']
         },
         gallery: [Object]
-        // imageOne: {
-        //     type: String
-        // },
-        // imageOneId: {
-        //     type: String
-        // },
-        // imageTwo: {
-        //     type: String
-        // },
-        // imageTwoId: {
-        //     type: String
-        // },
-        // imageTree: {
-        //     type: String
-        // },
-        // imageThreeId: {
-        //     type: String
-        // },
-        // imageFour: {
-        //     type: String
-        // },
-        // imageFourId: {
-        //     type: String
-        // },
-        // imageFive: {
-        //     type: String
-        // },
-        // imageFiveId: {
-        //     type: String
-        // }
     },
     { timestamps: true }
 );

@@ -183,3 +183,34 @@ export const changePassword = async (
         );
     }
 };
+
+export const getUserAccommodations = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const accommodations: any = await userService.getUserAccommodations(
+            req,
+            next
+        );
+
+        if (accommodations) {
+            return res.status(statusCode.ok()).json({
+                status: 'success',
+                message: 'Accommodations Fetch Successfully.',
+                data: {
+                    accommodations
+                }
+            });
+        }
+    } catch (err) {
+        logger.error('unable to fetch user accommodations', err);
+        return next(
+            new AppError(
+                `something went wrong ${err}`,
+                statusCode.internalServerError()
+            )
+        );
+    }
+};

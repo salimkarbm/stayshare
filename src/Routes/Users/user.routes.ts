@@ -11,7 +11,8 @@ import {
     updateUser,
     deleteUser,
     deActivateUser,
-    changePassword
+    changePassword,
+    getUserAccommodations
 } from '../../Controllers/Users/user.controllers';
 import Media from '../../Utils/Media/media';
 
@@ -27,6 +28,8 @@ router.patch(
     authenticate,
     changePassword
 );
+
+router.get('/accommodations', validate, authenticate, getUserAccommodations);
 
 router
     .route('/:userId')

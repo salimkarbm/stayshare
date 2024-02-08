@@ -5,6 +5,8 @@ import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
 import { userRepository } from '../../Repositories/Users/user.repository';
 import Media from '../../Utils/Media/media';
 import Utilities from '../../Utils/helpers';
+import { IAccommodation } from '../../Models/interfaces/accomodation';
+import { accomodationRepository } from '../../Repositories/Accommodations/accommodation.repository';
 
 const util = new Utilities();
 const media = new Media();
@@ -189,6 +191,24 @@ export default class UserService {
             new AppError(
                 'current password does not match',
                 statusCode.badRequest()
+            )
+        );
+    }
+
+    public async getUserAccommodations(
+        req: Request,
+        next: NextFunction
+    ): Promise<IAccommodation[] | void> {
+        const { id } = req.user;
+        if (id) {
+            const accommodations: any =
+                await accomodationRepository.getUserAccommodations(id);
+            return accommodations as IAccommodation[];
+        }
+        return next(
+            new AppError(
+                'You are not permitted to perform this operation',
+                statusCode.unauthorized()
             )
         );
     }

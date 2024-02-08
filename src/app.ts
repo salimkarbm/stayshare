@@ -33,9 +33,11 @@ const address = `0.0.0.0:${PORT}`;
 // set security Http headers
 app.use(helmet());
 
+app.options('*', cors());
+
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'squazzle.vercel.app'],
+        origin: ['http://localhost:3000', ' https://squazzle.vercel.app'],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     })
 );

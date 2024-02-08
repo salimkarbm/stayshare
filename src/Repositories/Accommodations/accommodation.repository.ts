@@ -81,6 +81,21 @@ export class AccomodationRepository {
 
         return accommodation as IAccommodation;
     }
+
+    async getUserAccommodations(
+        userId: string
+    ): Promise<IAccommodation | null> {
+        const accommodation: any = await Accommodation.find({
+            createdBy: userId
+        })
+            .populate({
+                path: 'createdBy',
+                select: '-__v -OTP',
+                match: { isActive: true }
+            })
+            .select('-__v  -profileImageId');
+        return accommodation as IAccommodation;
+    }
 }
 
 export const accomodationRepository = new AccomodationRepository();
