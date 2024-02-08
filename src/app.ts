@@ -37,7 +37,7 @@ app.options('*', cors());
 
 app.use(
     cors({
-        origin: ['http://localhost:3000', ' https://squazzle.vercel.app'],
+        origin: [' https://squazzle.vercel.app', 'http://localhost:3000'],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     })
 );
@@ -46,7 +46,6 @@ app.use(
 // body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: false }));
-
 // Define index route
 app.get('/', async (req: Request, res: Response) => {
     // res.render('index');
