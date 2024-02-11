@@ -35,12 +35,7 @@ app.use(helmet());
 
 app.options('*', cors());
 
-app.use(
-    cors({
-        origin: [' https://squazzle.vercel.app', 'http://localhost:3000'],
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-    })
-);
+app.use(cors());
 
 // Body parser middleware
 // body parser, reading data from body into req.body
