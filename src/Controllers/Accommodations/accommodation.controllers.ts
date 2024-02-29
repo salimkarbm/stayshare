@@ -67,7 +67,7 @@ export const getAccommodation = async (
 ) => {
     try {
         const accomodation: IAccommodation | void =
-            await accomodationService.getAccommodations(req, next);
+            await accomodationService.getAccommodation(req, next);
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'Accomodation fetch successfully',
