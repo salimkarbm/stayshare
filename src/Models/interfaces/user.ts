@@ -14,6 +14,8 @@ export interface IUser {
     gender?: string;
     phoneNumber: string;
     occupation?: string;
+    state?: string;
+    city?: string;
     NIN?: string;
     bio?: string;
     address?: string;

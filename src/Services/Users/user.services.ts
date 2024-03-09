@@ -37,7 +37,8 @@ export default class UserService {
                     state: profile.state,
                     city: profile.city,
                     phoneNumber: profile.phoneNumber,
-                    bio: profile.bio
+                    bio: profile.bio,
+                    createdAt: profile.createdAt
                 };
                 return newProfile as any;
             }
