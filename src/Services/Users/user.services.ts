@@ -19,9 +19,27 @@ export default class UserService {
     ): Promise<IUser | void> {
         const { id, email } = req.user;
         if (id) {
-            const profile = await userRepository.findUserByEmail(email);
+            const profile: any = await userRepository.findUserByEmail(email);
             if (profile && profile.id === id) {
-                return profile;
+                const newProfile = {
+                    id: profile.id,
+                    firstName: profile.firstName,
+                    lastName: profile.lastName,
+                    isEmailVerified: profile.isEmailVerified,
+                    profilePicture: profile.profileImage,
+                    role: profile.role,
+                    address: profile.address,
+                    gender: profile.gender,
+                    occupation: profile.occupation,
+                    profilePictureId: profile.profileImageId,
+                    email: profile.email,
+                    NIN: profile.NIN,
+                    state: profile.state,
+                    city: profile.city,
+                    phoneNumber: profile.phoneNumber,
+                    bio: profile.bio
+                };
+                return newProfile as any;
             }
             return next(
                 new AppError('Profile not found', statusCode.notFound())

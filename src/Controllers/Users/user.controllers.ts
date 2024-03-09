@@ -16,7 +16,7 @@ export const viewProfile = async (
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'Profile fetch successfully',
-            date: {
+            data: {
                 profile
             }
         });
@@ -42,7 +42,7 @@ export const getUsers = async (
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'Users fetched successfully',
-            date: {
+            data: {
                 users
             }
         });
@@ -68,7 +68,7 @@ export const getUser = async (
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'User fetched successfully',
-            date: {
+            data: {
                 user
             }
         });
@@ -94,7 +94,7 @@ export const updateUser = async (
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'User updated successfully',
-            date: {
+            data: {
                 user
             }
         });
@@ -120,7 +120,7 @@ export const deleteUser = async (
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'User deleted successfully',
-            date: {
+            data: {
                 user
             }
         });
@@ -145,7 +145,7 @@ export const deActivateUser = async (
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'User de-Activate successfully',
-            date: {
+            data: {
                 user
             }
         });

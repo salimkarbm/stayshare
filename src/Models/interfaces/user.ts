@@ -11,7 +11,10 @@ export interface IUser {
     isActive?: boolean;
     role?: string;
     isProfileComplete?: string;
+    gender?: string;
     phoneNumber: string;
+    occupation?: string;
+    NIN?: string;
     bio?: string;
     address?: string;
     passwordResetOtp?: string | number;
