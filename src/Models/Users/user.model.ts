@@ -67,7 +67,8 @@ const UserSchema = new Schema(
             select: false
         },
 
-        tokens: { type: Object }
+        tokens: { type: Object },
+        isProfileComplete: { type: Boolean, default: false }
     },
     { timestamps: true }
 );

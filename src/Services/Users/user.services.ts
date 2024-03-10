@@ -165,7 +165,8 @@ export default class UserService {
                     address: req.body.address || user.address,
                     profileImageId:
                         cloudinary?.public_id || user.profileImageId,
-                    profileImage: cloudinary?.secure_url || user.profilePicture
+                    profileImage: cloudinary?.secure_url || user.profilePicture,
+                    isProfileComplate: true
                 };
                 const newUser = await userRepository.updateUser(
                     payload,
