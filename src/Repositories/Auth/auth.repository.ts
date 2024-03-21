@@ -29,7 +29,7 @@ export class AuthRepository {
 
         const updateUserPassword: any = await User.findOneAndUpdate(
             { email },
-            { password: hashPassword }
+            { passwordDigest: hashPassword }
         );
 
         return updateUserPassword;
