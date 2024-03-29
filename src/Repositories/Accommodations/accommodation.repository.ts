@@ -10,13 +10,22 @@ export class AccomodationRepository {
     }
 
     async getAccommodations(): Promise<IAccommodation> {
-        const accomodations: any = await Accommodation.find();
+        const accomodations: any = await Accommodation.find().populate([
+            {
+                path: 'createdBy'
+            }
+        ]);
         return accomodations as IAccommodation;
     }
 
     async getAccommodation(accommodationId: string): Promise<IAccommodation> {
-        const accomodations: any =
-            await Accommodation.findById(accommodationId);
+        const accomodations: any = await Accommodation.findById(
+            accommodationId
+        ).populate([
+            {
+                path: 'createdBy'
+            }
+        ]);
         return accomodations as IAccommodation;
     }
 
