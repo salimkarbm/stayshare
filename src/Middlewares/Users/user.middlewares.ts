@@ -51,13 +51,13 @@ export const changePasswordValidationRules = () => {
             .notEmpty()
             .withMessage('current Password can not be empty')
             .isLength({ min: 6, max: 16 })
-            .withMessage('Password must be between 1 and 16 characters'),
+            .withMessage('Password must be between 6 and 16 characters'),
         body('newPassword')
             .trim()
             .notEmpty()
             .withMessage('new Password can not be empty')
             .isLength({ min: 6, max: 16 })
-            .withMessage('Password must be between 1 and 16 characters'),
+            .withMessage('Password must be between 6 and 16 characters'),
         body('confirmPassword')
             .trim()
             .notEmpty()
