@@ -1,9 +1,11 @@
 import { Request, NextFunction } from 'express';
 import { IAccommodation } from '../../Models/interfaces/accomodation';
+import Accommodation from '../../Models/Accommodations/accommodation.model';
 import AppError from '../../Utils/Errors/appError';
 import HttpStatusCode from '../../Utils/httpStatusCodes/httpStatusCode';
 import Media from '../../Utils/Media/media';
 import { accomodationRepository } from '../../Repositories/Accommodations/accommodation.repository';
+import ApiFeatures from '../../Utils/apiFeatures';
 
 const mediaImage = new Media();
 const statusCode = new HttpStatusCode();
@@ -52,9 +54,16 @@ export default class AccomodationService {
     public async getAccommodations(
         req: Request,
         next: NextFunction
-    ): Promise<IAccommodation | void> {
-        const accommodations = await accomodationRepository.getAccommodations();
-        return accommodations;
+    ): Promise<IAccommodation[] | void> {
+        const features = new ApiFeatures(Accommodation.find(), req.query)
+            .filter()
+            .paginate()
+            .sort()
+            .limit();
+
+        // EXECUTE QUERY
+        const accommodations = await features.getDbQuery;
+        return accommodations as IAccommodation[];
     }
 
     public async getAccommodation(

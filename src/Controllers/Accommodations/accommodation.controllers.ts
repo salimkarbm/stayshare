@@ -40,11 +40,12 @@ export const getAccommodations = async (
     next: NextFunction
 ) => {
     try {
-        const accomodation: IAccommodation | void =
+        const accomodation: IAccommodation[] | void =
             await accomodationService.getAccommodations(req, next);
         return res.status(statusCode.ok()).json({
             status: 'success',
             message: 'Accomodations fetch successfully',
+            resuilt: accomodation?.length,
             data: {
                 accomodation
             }
